@@ -1,116 +1,133 @@
 /*  NAME: Nicole Mutia
     DATE: Nov. 4, 2018
-    Purpose:
+    PURPOSE: to function as an ATM machine.
+    NOTE: As of now, this app could only take this userID: nclmutia and password: abcd1234 for the app to run
 */
 #include <iostream>
 #include <stdlib.h>
 
 using namespace std;
 
-// function prototypes
+// Function prototypes
 void printIntroMenu();
 void printMainMenu();
 void start();
 void login();
 void createAccount();
 
-// global variable (use this variable to store the user’s menu selection)
-char menuInput;
-char introMenuChoice, mainMenuChoice;
-string userID, password, storedPassword, storedUserID, depositAmount;
+// Global variable (use this variable to store the user’s menu selection)
+string userID, password, storedPassword, storedUserID;
 bool didUserNotProvideAGoodUseridAndPassword = true;
 bool doesTheUserWantToContinue = true;
 
-// the main function
+
+// The main function
 int main()
 {
-    // TO WRITE A WELCOME MESSAGE HERE
+    // Greet User
     cout << "Hi! Welcome to Nicole Mutia's ATM Machine!\n\n";
-    // call the function start
+    // Call the function start
     start();
     return 0;
 }
 void printIntroMenu()
 {
-    // WRITE CODE HERE
-    cout << "Please select an option from the menu below: \n\n" << endl; // \n\n and endl produce two blank lines
-    cout << "L -> Login" << endl;
-    cout << "C -> Create New Account" << endl;
-    cout << "Q -> Quit \n\n" << endl;
-    cout << ">  ";
-    cin >> introMenuChoice;
+    char introMenuChoice;
     do
     {
-        if ((introMenuChoice == 'L') || (introMenuChoice == 'l'))
-        {
-            storedUserID = "nclmutia";
-            storedPassword = "120679";
-            cout << "\n\n" << "Please enter your user id: ";
-            cin >> userID;
-            cout << "Please enter your password: ";
-            cin >> password;
-            if ((userID == storedUserID) && (password == storedPassword))
-            {
-                cout << "\n\n" << "Access Granted!" << endl;
-                didUserNotProvideAGoodUseridAndPassword = false;
-            }
-            else
-            {
-                cout << " ******** LOGIN FAILED! ******** " << endl;
-            }
-        }
-        else
-        {
-            if ((introMenuChoice == 'C') || (introMenuChoice == 'c'))
-            {
-                cout << "\n\n" << "Enter your user id: ";
-                cin >> userID;
-                cout << "Enter your password: ";
-                cin >> password;
-                cout << "\n\n" << "Thank you! Your account has been created!" << endl;
-            }
+        cout << "Please select an option from the menu below: \n\n" << endl; // \n\n and endl produce two blank lines
+        cout << "L -> Login" << endl;
+        cout << "C -> Create New Account" << endl;
+        cout << "Q -> Quit \n\n" << endl;
+        cout << ">  ";
+        cin >> introMenuChoice;
 
-            /*switch (hash(introMenuChoice)) {
-                case  hash("L"):   cout << "Login"; break;
-                case hash("C"):   cout << "Create New Account "; break;
-                case hash("Q"):   cout << "Quit"; break;
-                } */
+        switch (introMenuChoice) // This statement checks and runs what the user chose
+        {
+        case 'C':
+        case 'c':
+            createAccount();
+            break;
+        case 'L':
+        case 'l':
+            login();
+            break;
+        case 'Q':
+        case 'q':
+            exit(0);
         }
-    } while(didUserNotProvideAGoodUseridAndPassword);
+    }
+    while(didUserNotProvideAGoodUseridAndPassword);
 }
 void printMainMenu()
 {
-    // WRITE CODE HERE
+    char mainMenuChoice;
+    double depositAmount, balanceAmount, withdrawalAmount;
+    balanceAmount = 0;
     do
     {
         cout << "\n\n" << "D -> Deposit Money" << endl;
         cout << "W -> Withdraw Money" << endl;
         cout << "R -> Request Balance" << endl;
         cout << "Q -> Quit" << endl;
-        cout << ">  ";
+        cout << ">  " << "\n\n";
         cin >> mainMenuChoice;
-
-        if ((mainMenuChoice == 'D') || (mainMenuChoice == 'd'))
+        switch (mainMenuChoice)
         {
-            cout << "Amount of deposit: " << endl;
+        case 'D':
+        case 'd':
+            cout << "Amount of deposit: $";
             cin >> depositAmount;
-
+            balanceAmount = balanceAmount + depositAmount;
+            break;
+        case 'W':
+        case 'w':
+            cout << "Amount of withdrawal: $";
+            cin >> withdrawalAmount;
+            balanceAmount = balanceAmount - withdrawalAmount;
+            break;
+        case 'R':
+        case 'r':
+            cout << "Your balance is: $" << balanceAmount << endl;
+            break;
+        case 'Q':
+        case 'q':
+            cout << "Thank you for stopping by!" << endl;
+            exit(0);
         }
     }
     while (doesTheUserWantToContinue);
 }
 void start()
 {
-    // EXPLANATION OF CODE THAT GOES HERE IS BELOW
     printIntroMenu();
     printMainMenu();
 
 }
 void createAccount()
-{
-    // PHASE 2
+{ // Code to create userID and password goes here
+    cout << "\n\n" << "Enter your user id: ";
+    cin >> userID;
+    cout << "Enter your password: ";
+    cin >> password;
+    cout << "\n\n" << "Thank you! Your account has been created!" << endl;
 }
 void login()
-{
-    // PHASE 2
+{ // Code for the user to login
+    storedUserID = "nclmutia"; // As of now, this is the only user ID and password that will work
+    storedPassword = "abcd1234";
+    cout << "\n\n" << "Please enter your user id: ";
+    cin >> userID;
+    cout << "Please enter your password: ";
+    cin >> password;
+    if ((userID == storedUserID) && (password == storedPassword))
+    {
+        cout << "\n\n" << "Access Granted!" << endl;
+        didUserNotProvideAGoodUseridAndPassword = false;
+    }
+    else // If the userID and password did not match to the stored userid and password this code runs
+    {
+        cout << " ******** LOGIN FAILED! ******** " << "\n\n" << endl;
+    }
 }
+
